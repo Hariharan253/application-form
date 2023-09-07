@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="row">
+        
+        <form class="col col-md-6" (ngSubmit)="onSaveApplication(formData)" #formData="ngForm">
+            <div class="form-group m-3">
+                <label for="Name">Full Name *</label>
+                <input 
+                type="text" 
+                name="name" 
+                class="form-control" 
+                minlength="3"
+                ngModel 
+                required
+                placeholder="Your Name"
+                #name="ngModel">
+                <mat-error class="text-danger" *ngIf="name.invalid === true && name.touched === true">Please Enter Name</mat-error>
+            </div>
+            <div class="form-group m-3">
+                <label for="Email">Email *</label>
+                <input 
+                type="email"
+                name="email" 
+                class="form-control"
+                required
+                email
+                ngModel
+                placeholder="youremail@example.com"
+                #email="ngModel">
+                <mat-error class="text-danger" *ngIf="email.invalid === true && email.untouched === false">Please Enter Email</mat-error>
+            </div>
+            <div class="form-group m-3"> 
+                <label for="Phone">Phone Number *</label>
+                <input 
+                type="text" 
+                name="phone" 
+                class="form-control"
+                required
+                ngModel
+                placeholder="9012345678"
+                #phone="ngModel">
+                <mat-error class="text-danger" *ngIf="phone.invalid === true && phone.untouched === false">Please Enter Phone Number</mat-error>
+            </div>
+            <div class="form-group m-3">
+                <label for="Age">Age *</label>
+                <input 
+                type="number" 
+                name="age" 
+                class="form-control"
+                ngModel
+                number
+                required                
+                #age="ngModel">
+                <mat-error class="text-danger" *ngIf="age.invalid === true && age.untouched === false">Please Enter Age</mat-error>
+            </div>
+            <div class="form-group m-3">
+                <label for="Address">Address *</label>
+                <textarea 
+                name="address" id="" rows="3"
+                class="form-control"
+                ngModel
+                required
+                placeholder="your address"
+                #address="ngModel"></textarea>
+
+                <mat-error class="text-danger" *ngIf="address.invalid === true && address.untouched === false">Please Enter Address </mat-error>
+            </div>
+            <div class="m-3">
+                <button class="btn btn-md btn-primary" type="submit">Next</button>
+            </div>
+            <!-- <div class="form-group m-5">
+                <label for="Address">Address</label>
+                <textarea type="text" name="address" class="form-control">
+            </div> -->
+        </form>
+    </div>
+</div>
