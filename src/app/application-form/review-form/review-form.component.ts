@@ -13,13 +13,20 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
 
   public applicationFormDataSub: Subscription;
 
-  public applicationFormDataArray: any[];
+  public applicationFormDataArray: any[] = [];
+
+  public isFormSubmittedSub: Subscription;
+  public isFormSubmitted = false;
+
+  public isLoading = false;
 
   constructor(private applicationFormService: ApplicationFormService) {}
 
   ngOnInit(): void {
     this.applicationFormDataSub = this.applicationFormService.getApplicationFormForReview()
-      .subscribe((applicationFormData: ApplicationForm) => {
+      .subscribe((applicationFormData: any) => {
+        if(applicationFormData == false)
+          return;
         console.log('apply form: ', applicationFormData);
         this.applicationFormData = applicationFormData;
         this.applicationFormDataArray = Object.entries(applicationFormData).map(([key, value], index) => ({
@@ -31,10 +38,24 @@ export class ReviewFormComponent implements OnInit, OnDestroy {
         this.applicationFormDataArray.shift();
         console.log(this.applicationFormDataArray);
       });
+
+    this.isFormSubmittedSub = this.applicationFormService.getisFormSubmittedSubject()
+      .subscribe((isFormSubmitted) => {
+        this.isLoading = false;
+        console.log('form submitted: ', isFormSubmitted);
+        this.isFormSubmitted = isFormSubmitted;
+        
+      })  
+  }
+
+  onSubmitReviewForm() {
+    this.isLoading = true;
+    this.applicationFormService.postApplicationFormToDB(this.applicationFormData);
   }
 
   ngOnDestroy(): void {
     this.applicationFormDataSub.unsubscribe();
+    this.isFormSubmittedSub.unsubscribe();
   }
 
 }

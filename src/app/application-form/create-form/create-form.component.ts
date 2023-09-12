@@ -21,7 +21,7 @@ export class CreateFormComponent implements OnInit, OnDestroy {
     this.applicationFormDataSub = this.applicationFormService.getApplicationFormForReview().subscribe((applicationFormData: ApplicationForm) => {
       console.log("form Data: ", applicationFormData);
       this.applicationFormData = applicationFormData;
-    })
+    });
   }
 
   onSaveApplication(formData: NgForm) {

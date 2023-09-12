@@ -6,14 +6,18 @@ import { ReviewFormComponent } from './application-form/review-form/review-form.
 import { DashboardComponent } from './admin/dashboard/dashboard.component';
 import { LoginComponent } from './admin/login/login.component';
 import { DetailPageComponent } from './admin/detail-page/detail-page.component';
+import { SuccessOnCreateComponent } from './application-form/success-on-create/success-on-create.component';
+import { SignupComponent } from './admin/signup/signup.component';
 
 const routes: Routes = [
-  {path: '', component: AppComponent},
+  {path: '', redirectTo: '/create', pathMatch: 'full'},
   {path: 'create', component: CreateFormComponent},
   {path: 'review', component: ReviewFormComponent},
   {path: 'admin/dashboard', component: DashboardComponent},
+  {path: 'admin/signup/12092023', component: SignupComponent},
   {path: 'admin/login', component: LoginComponent},
-  {path: 'admin/detail', component: DetailPageComponent}
+  {path: 'admin/detail', component: DetailPageComponent},
+  {path: 'success-on-create', component: SuccessOnCreateComponent}
 ];
 
 @NgModule({

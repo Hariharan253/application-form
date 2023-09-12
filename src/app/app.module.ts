@@ -7,7 +7,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {NgbModule} from "@ng-bootstrap/ng-bootstrap";
 import { MatCardModule } from "@angular/material/card";
 import { FormsModule } from '@angular/forms';
-
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatToolbarModule } from "@angular/material/toolbar";
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -19,6 +20,9 @@ import { DetailPageComponent } from './admin/detail-page/detail-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AdminInterceptor } from './application-form/application-form-intereceptor';
 import { ErrorInterceptor } from 'src/error-interceptor';
+import { SuccessOnCreateComponent } from './application-form/success-on-create/success-on-create.component';
+import { HeaderComponent } from './header/header.component';
+import { SignupComponent } from './admin/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +31,10 @@ import { ErrorInterceptor } from 'src/error-interceptor';
     ReviewFormComponent,
     LoginComponent,
     DashboardComponent,
-    DetailPageComponent
+    DetailPageComponent,
+    SuccessOnCreateComponent,
+    HeaderComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +46,9 @@ import { ErrorInterceptor } from 'src/error-interceptor';
     NgbModule,
     MatCardModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MatProgressSpinnerModule,
+    MatToolbarModule
   ],
   providers: [
     {

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Subject, BehaviorSubject, of } from 'rxjs';
+import { Subject, BehaviorSubject, of, map } from 'rxjs';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 import { ApplicationForm } from './application-form.model';
 
@@ -17,19 +18,40 @@ export class ApplicationFormService {
     email: "email",
     phone: "adf"
   }
-  private applicationFormReviewSubject = new Subject<ApplicationForm>();
+  private applicationFormReviewSubject = new BehaviorSubject<ApplicationForm | boolean>(false);
 
-  constructor(private router: Router) { }
+  private isFormSubmittedSubject = new BehaviorSubject<boolean>(false);
+
+  constructor(private router: Router, private http: HttpClient) { }
 
   postApplicationFormForReview(applicationFormData: ApplicationForm) {
     this.applicationForm = applicationFormData;
     this.applicationFormReviewSubject.next(applicationFormData);
-    this.router.navigate(['/review'])
+    this.router.navigate(['/review']);
   }
 
   getApplicationFormForReview() {
-    return this.applicationFormReviewSubject.asObservable();
-    return of(this.applicationForm);
+    return this.applicationFormReviewSubject.asObservable();    
+  }
+
+  postApplicationFormToDB(applicationFormData: ApplicationForm) {
+    this.http.post<{message: string, applicationFormData: ApplicationForm}>("http://localhost:3000/api/application-form/post", applicationFormData)
+      .subscribe((response) => {
+        console.log(response.applicationFormData);
+        this.applicationForm = null;
+        this.applicationFormReviewSubject.next(false);
+        this.isFormSubmittedSubject.next(true); //to indigaate the form is POSTED in DB
+        this.router.navigate(['/success-on-create']);
+      },(error) => {
+        console.log(error);
+        window.alert("Error Occured, reload page");
+        this.applicationFormReviewSubject.next(false);
+        this.applicationForm = null;
+      })
+  }
+
+  getisFormSubmittedSubject() {
+    return this.isFormSubmittedSubject.asObservable();
   }
 
 }

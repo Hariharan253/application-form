@@ -1,0 +1,11 @@
+<mat-card>
+    <mat-spinner *ngIf="isLoading === true">
+        <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+            <mat-form-field>
+                <input 
+                type="text"
+                >
+            </mat-form-field>
+        </form>
+    </mat-spinner>
+</mat-card>

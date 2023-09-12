@@ -9,7 +9,7 @@
                 name="name" 
                 class="form-control" 
                 minlength="3"
-                ngModel 
+                [ngModel]="applicationFormData.name" 
                 required
                 placeholder="Your Name"
                 #name="ngModel">
@@ -23,7 +23,7 @@
                 class="form-control"
                 required
                 email
-                ngModel
+                [ngModel]="applicationFormData.email"
                 placeholder="youremail@example.com"
                 #email="ngModel">
                 <mat-error class="text-danger" *ngIf="email.invalid === true && email.untouched === false">Please Enter Email</mat-error>
@@ -35,7 +35,7 @@
                 name="phone" 
                 class="form-control"
                 required
-                ngModel
+                [ngModel]="applicationFormData.phone"
                 placeholder="9012345678"
                 #phone="ngModel">
                 <mat-error class="text-danger" *ngIf="phone.invalid === true && phone.untouched === false">Please Enter Phone Number</mat-error>
@@ -46,7 +46,7 @@
                 type="number" 
                 name="age" 
                 class="form-control"
-                ngModel
+                [ngModel]="applicationFormData.age"
                 number
                 required                
                 #age="ngModel">
@@ -57,7 +57,7 @@
                 <textarea 
                 name="address" id="" rows="3"
                 class="form-control"
-                ngModel
+                [ngModel]="applicationFormData.address"
                 required
                 placeholder="your address"
                 #address="ngModel"></textarea>
@@ -74,3 +74,17 @@
         </form>
     </div>
 </div>
+
+<!-- <div class="container">
+    <div class="row">
+        <div class="col col-md-4">
+            <h3>Hi</h3>
+        </div>
+        <div class="col col-md-4">
+            <h3>Hi</h3>
+        </div>
+        <div class="col col-md-4 order-md-last">
+            <h3>Hi</h3>
+        </div>
+    </div>
+</div> -->
