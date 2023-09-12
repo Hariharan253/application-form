@@ -1,1 +1,32 @@
-<p>login works!</p>
+<mat-card>
+    <mat-spinner *ngIf="isLoading === true"></mat-spinner>
+        <form (ngSubmit)="onSubmit(form)" #form="ngForm">
+            <mat-form-field>
+                <label for="Email">Email *</label>
+                <input 
+                matInput
+                type="email"
+                ngModel
+                name="email"
+                required
+                email
+                #email="ngModel"
+                >
+                <mat-error *ngIf="email.invalid && email.touched">Please Enter a Correct Email ID</mat-error>                
+            </mat-form-field>
+            <mat-form-field>
+                <label for="Password">Password *</label>
+                <input 
+                type="text"
+                matInput
+                ngModel
+                name="password"                
+                required
+                minlength="4"
+                #password="ngModel"
+                >
+                <mat-error *ngIf="password.invalid && password.touched">Password Invalid, should be more than 4 characters</mat-error>
+            </mat-form-field>
+            <button mat-raised-button color="primary" class="btn-primary" type="submit">Login</button>
+        </form>
+</mat-card>

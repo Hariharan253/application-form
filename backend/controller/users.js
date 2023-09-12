@@ -37,6 +37,7 @@ exports.createUser = (req, res, next) => {
 };
 
 exports.loginUser = (req, res, next) => {
+  console.log("Entered User Login");
   let userData = {};
   User.findOne({ email: req.body.email })
     .then((result) => {
