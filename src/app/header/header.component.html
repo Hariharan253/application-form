@@ -2,17 +2,25 @@
     <span><a routerLink="/">Application Form</a></span>
     <div class="spacer"></div>
     <ul>
-        <li *ngIf="userIsAuthenticated">
+        <!-- <li *ngIf="userIsAuthenticated">
             <a mat-button routerLink="/create" routerLinkActive="mat-accent">New Post</a>
+        </li> -->
+        <!-- <div class="row">
+            <div class="col">
+            </div>
+            <div class="col offset-">
+
+            </div>
+        </div> -->
+        <li *ngIf="!userIsAuthenticated" class="login-style">
+            <a mat-button routerLink="/admin/login" routerLinkActive="mat-accent">Login</a>
         </li>
         <li *ngIf="!userIsAuthenticated">
-            <a mat-button routerLink="/auth/login" routerLinkActive="mat-accent">Login</a>
+            <a mat-button routerLink="/admin/signup/12092023" routerLinkActive="mat-accent">Signup</a>
         </li>
-        <!-- <li *ngIf="!userIsAuthenticated">
-            <a mat-button routerLink="/auth/signup" routerLinkActive="mat-accent">Signup</a>
-        </li> -->
         <li *ngIf="userIsAuthenticated">
-            <button mat-button (click)="onLogout()">Logout</button>
+            <a mat-button (click)="onLogout()" routerLink="/admin/login" routerLinkActive="mat-accent">Logout</a>
+            <!-- <button mat-button >Logout</button> -->
         </li>
     </ul>
 </mat-toolbar>

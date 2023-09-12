@@ -1,12 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { AdminService } from '../admin/admin.service';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
 })
-export class HeaderComponent {
-  userIsAuthenticated = false;
+export class HeaderComponent implements OnInit, OnDestroy {
+  userIsAuthenticated = true;
 
-  onLogout() {}
+  constructor(private adminService: AdminService) {}
+
+  ngOnInit(): void {
+    this.adminService.getUserIsAuthenticatedSub()
+      .subscribe(userIsAuthenticated => {
+        this.userIsAuthenticated = userIsAuthenticated;
+      })
+  }
+
+  onLogout() {
+    this.userIsAuthenticated = false;
+  }
+
+  ngOnDestroy(): void {
+    
+  }
 }

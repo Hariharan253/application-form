@@ -42,6 +42,4 @@ app.use((req, res, next) => {
 app.use("/api/application-form", applicationFormRoutes);
 app.use("/api/auth", userRoutes);
 
-
-
 module.exports = app;
