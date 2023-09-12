@@ -17,6 +17,10 @@ export class AdminService {
   private userId: string;
   private userIdSub = new BehaviorSubject<string>("");
 
+  getUserIsAuthenticated() {
+    return this.userIsAuthenticated;
+  }
+
 
   signup(userData: AdminUser) {
     this.http.post('http://localhost:3000/api/auth/signup', {email: userData.email, password: userData.password})

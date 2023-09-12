@@ -17,6 +17,7 @@ mongoose.connect(`mongodb+srv://hariharan210325:NtfylH7ws1iilTSY@cluster0.y06pop
 
 const applicationFormRoutes = require('./routes/application-form');
 const userRoutes = require('./routes/users');
+const adminApplicationFormRoutes = require('./routes/admin-application-form');
 
 
 
@@ -41,5 +42,6 @@ app.use((req, res, next) => {
 
 app.use("/api/application-form", applicationFormRoutes);
 app.use("/api/auth", userRoutes);
+app.use("/api/admin", adminApplicationFormRoutes);
 
 module.exports = app;

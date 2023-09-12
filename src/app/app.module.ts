@@ -9,6 +9,8 @@ import { MatCardModule } from "@angular/material/card";
 import { FormsModule } from '@angular/forms';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatToolbarModule } from "@angular/material/toolbar";
+import {MatTableModule} from '@angular/material/table';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -48,7 +50,8 @@ import { SignupComponent } from './admin/signup/signup.component';
     FormsModule,
     HttpClientModule,
     MatProgressSpinnerModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatTableModule
   ],
   providers: [
     {
