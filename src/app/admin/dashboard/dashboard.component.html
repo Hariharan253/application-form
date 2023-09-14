@@ -1,6 +1,9 @@
 <div class="container mt-3">
-    <div class="row justify-content-center">
-        <div class="col col-md-12 col-sm-12">
+    <div class="row justify-content-center text-center">
+        <div class="col col-md-12 col-sm-12" *ngIf="isLoading === true">
+          <mat-spinner></mat-spinner>
+        </div>
+        <div class="col col-md-12 col-sm-12" *ngIf="isLoading === false">
             <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 demo-table">
                 <!-- Position Column -->
                 <ng-container matColumnDef="demo-position">
@@ -13,22 +16,72 @@
                   <th mat-header-cell *matHeaderCellDef> Name </th>
                   <td mat-cell *matCellDef="let element"> {{element.name}} </td>
                 </ng-container>
-              
-                <!-- Weight Column -->
-                <ng-container matColumnDef="demo-weight">
-                  <th mat-header-cell *matHeaderCellDef> Weight </th>
-                  <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
+
+                <!-- Email Column -->
+                <ng-container matColumnDef="demo-email">
+                  <th mat-header-cell *matHeaderCellDef> Email </th>
+                  <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+                </ng-container>
+
+                <!-- Phone Column -->
+                <ng-container matColumnDef="demo-phone">
+                  <th mat-header-cell *matHeaderCellDef> Phone </th>
+                  <td mat-cell *matCellDef="let element"> {{element.phone}} </td>
                 </ng-container>
               
-                <!-- Symbol Column -->
-                <ng-container matColumnDef="demo-symbol">
-                  <th mat-header-cell *matHeaderCellDef> Symbol </th>
-                  <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+                <!-- Age Column -->
+                <ng-container matColumnDef="demo-age">
+                  <th mat-header-cell *matHeaderCellDef> Age </th>
+                  <td mat-cell *matCellDef="let element"> {{element.age}} </td>
+                </ng-container>
+              
+                <!-- Address Column -->
+                <ng-container matColumnDef="demo-address">
+                  <th mat-header-cell *matHeaderCellDef> Address </th>
+                  <td mat-cell *matCellDef="let element"> {{element.address}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="demo-edit">
+                  <th mat-header-cell *matHeaderCellDef> Edit </th>
+                  <td mat-cell *matCellDef="let element"> 
+                    <button class="btn btn-sm btn-warning">{{element.edit}}</button>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="demo-delete">
+                  <th mat-header-cell *matHeaderCellDef> Delete </th>
+                  <td mat-cell *matCellDef="let element"> 
+                    <button class="btn btn-sm btn-danger" (click)="onDeleteApplicationForm(element.id)">{{element.delete}}</button>
+                  </td>
                 </ng-container>
               
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
               </table>
+        </div>
+        <div class="col col-md-12 col-lg-12 col-sm-12 mt-3" *ngIf="isLoading === false">
+          <div class="col col-md-2 col-sm-2 col-lg-2">
+            <div class="d-flex">
+              <div class="flex-fill">
+                <button mat-button color="accent" (click)="onPrevPage()" [disabled]="currentOffset === 0">Prev Page</button>
+              </div>
+              <div class="flex-fill">
+                <button mat-button color="accent" (click)="onNextPage()" [disabled]="currentOffset + paginationValue >= count">Next Page</button>
+              </div>
+            </div>
+            <!-- <div class="button-margin">
+              <button mat-button color="accent">Accent</button>
+            </div>
+            <div class="button-margin">
+              <button mat-button color="accent">Accent</button>
+            </div>
+          </div> -->
+          <div class="row justify-content-start">
+            
+            <div class="col col-md-2 col-sm-2 col-lg-2">
+              
+            </div>
+          </div>
         </div>
     </div>
 </div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminApplicationFormService } from '../admin-application-form.service';
+import { ApplicationForm } from 'src/app/application-form/application-form.model';
 
 
 
@@ -17,25 +18,60 @@ export interface PeriodicElement {
   styleUrls: ['./dashboard.component.css']
 })
 export class DashboardComponent implements OnInit {
-  public ELEMENT_DATA: PeriodicElement[] = [
-    {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-    {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-    {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-    {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-    {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-    {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-    {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-    {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-    {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-    {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-  ];
-  displayedColumns: string[] = ['demo-position', 'demo-name', 'demo-weight', 'demo-symbol'];
-  public dataSource = this.ELEMENT_DATA;
+  private Users: ApplicationForm[] = [];
+  displayedColumns: string[] = ['demo-position', 'demo-name', 'demo-email', 'demo-phone', 'demo-age', 'demo-address', 'demo-edit', 'demo-delete'];
+  public dataSource = [];
+
+  public isLoading = false;
+  public currentPage = 0;
+  public currentOffset = 0;
+  public count = 0;
+  public paginationValue = 10;
 
   constructor(private adminApplicationFormService: AdminApplicationFormService) {}
 
   ngOnInit(): void {
-     this.adminApplicationFormService.getUsers(0, 10);
+     this.currentPage = 0;
+     this.count = 0;
+     this.adminApplicationFormService.getUsers(this.currentOffset, 10);
+     this.adminApplicationFormService.getUsersSub()
+     .subscribe((applicationForm: any) => {       
+       if(applicationForm === false) {
+        this.isLoading = true;
+        return;
+      }
+      else {
+        this.isLoading = false;
+        this.Users = applicationForm.applicationForm;
+        const editAndDeleteIcon = {"edit": "Edit", "delete": "Delete"};
+        this.dataSource = this.Users.map((item) => ({...item, ...editAndDeleteIcon}));
+        // this.currentPage += 1;
+        this.currentOffset = applicationForm.offset; //set offset from API response
+        this.count = applicationForm.count;
+        
+      }
+     });
   }
 
+  onPrevPage() {
+    if((this.currentPage - 1) < 0)
+      return;
+    this.isLoading = true;
+    this.adminApplicationFormService.getUsers(this.currentOffset - this.paginationValue, this.paginationValue);
+    this.currentPage -= 1;
+  }
+
+  onNextPage() {
+    if(this.count - this.currentOffset >= 0 ) {
+      this.isLoading = true;
+      this.adminApplicationFormService.getUsers(this.currentOffset + this.paginationValue, this.paginationValue);
+      this.currentPage += 1;
+      
+    }
+  }
+
+  onDeleteApplicationForm(id: string) {    
+    this.isLoading = true;
+    this.adminApplicationFormService.deleteApplicationFormById(id, this.currentOffset);
+  }
 }

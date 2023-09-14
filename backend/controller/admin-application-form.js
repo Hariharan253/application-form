@@ -1,14 +1,13 @@
 const ApplicationForm = require("../models/application-form");
 
-exports.getUsers = (req, res, next) => {
-  console.log("Query: ", req.query.offset);
+exports.getUsers = (req, res, next) => {   
   var offset = 1;
   offset = +req.query.offset;
   var limit = 10;
   limit = +req.query.limit;
 
   const getUserQuery = ApplicationForm.find();
-  getUserQuery.skip(offset * (limit - 1)).limit(limit);
+  getUserQuery.skip(offset).limit(limit);
 
   var users = {};
   getUserQuery
@@ -16,11 +15,12 @@ exports.getUsers = (req, res, next) => {
       users = document;
       return ApplicationForm.count();
     })
-    .then((count) => {
+    .then((count) => {      
       res.status(200).json({
         count: count,
         message: "Users fetched Successfully",
         users: users,
+        offset: +req.query.offset
       });
     })
     .catch((err) => {
@@ -29,4 +29,34 @@ exports.getUsers = (req, res, next) => {
         message: err,
       });
     });
+}
+
+
+exports.deleteApplicationFormById = (req, res, next) => {
+  
+
+  try {
+    ApplicationForm.deleteOne({_id: req.params.id})
+    .then(response => {
+      if(response.deletedCount === 1) {
+        return res.status(200).json({
+          message: "Application Form Deleted Successfully",
+          isDeleted: true
+        });
+      }
+      else {
+        return res.status(200).json({
+          message: "Unable to delete User",
+          err: response,
+          isDeleted: false
+        });
+      }
+    })
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      err: error 
+    })
+  }
+
 };

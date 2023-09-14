@@ -5,4 +5,6 @@ const adminApplicationFormController = require('../controller/admin-application-
 
 router.get('/application-form', adminApplicationFormController.getUsers);
 
+router.delete('/delete/application-form/:id', adminApplicationFormController.deleteApplicationFormById);
+
 module.exports = router;

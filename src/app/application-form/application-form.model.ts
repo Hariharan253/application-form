@@ -1,4 +1,5 @@
 export interface ApplicationForm {
+    position?:number;
     id?: string;
     name: string;
     age: number;
