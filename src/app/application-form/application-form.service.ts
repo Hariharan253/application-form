@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
 import { ApplicationForm } from './application-form.model';
+import { environment } from 'src/environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
@@ -35,7 +36,7 @@ export class ApplicationFormService {
   }
 
   postApplicationFormToDB(applicationFormData: ApplicationForm) {
-    this.http.post<{message: string, applicationFormData: ApplicationForm}>("http://application-form-env.eba-ypsj7biv.ap-south-1.elasticbeanstalk.com/api/application-form/post", applicationFormData)
+    this.http.post<{message: string, applicationFormData: ApplicationForm}>(`${environment.apiURL}/api/application-form/post`, applicationFormData)
       .subscribe((response) => {
         console.log(response.applicationFormData);
         this.applicationForm = null;

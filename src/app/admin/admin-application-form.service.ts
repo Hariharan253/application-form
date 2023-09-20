@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx';
 
 
 import { ApplicationForm } from '../application-form/application-form.model';
+import { environment } from 'src/environments/environment.development';
 
 export interface ApplicationFormResponse {
     _id?: string;
@@ -33,7 +34,7 @@ export class AdminApplicationFormService {
   public currentPage = 0;
 
   getUsers(offset: number, limit: number) {    
-    this.http.get<{users: ApplicationFormResponse[], count: number, message: string, offset: number}>(`http://localhost:3000/api/admin/application-form?offset=${offset}&limit=${limit}`)
+    this.http.get<{users: ApplicationFormResponse[], count: number, message: string, offset: number}>(`${environment.apiURL}/api/admin/application-form?offset=${offset}&limit=${limit}`)
       .pipe(map((response) => {        
         const applicationUsers =  response.users.map((item, index) => {
           return {
@@ -62,7 +63,7 @@ export class AdminApplicationFormService {
 
   getUserApplicationFormById(id: string) {
     console.log("Id: ", id);
-    this.http.get<{message: string, isFound: boolean, userApplicationForm: ApplicationFormResponse}>(`http://localhost:3000/api/admin/application-form/get-application-form-by-id/${id}`)
+    this.http.get<{message: string, isFound: boolean, userApplicationForm: ApplicationFormResponse}>(`${environment.apiURL}/api/admin/application-form/get-application-form-by-id/${id}`)
     .pipe(map(response => {
       return {
         id: response.userApplicationForm._id,
@@ -85,7 +86,7 @@ export class AdminApplicationFormService {
   }
 
   updateUserFormById(formId: string, applicationFormData: ApplicationForm, offset: number) {
-    this.http.put<{message: string}>(`http://localhost:3000/api/admin/update/application-form/${formId}`, applicationFormData)
+    this.http.put<{message: string}>(`${environment.apiURL}/api/admin/update/application-form/${formId}`, applicationFormData)
     .subscribe((response) => {
       console.log('response: ', response);
       // const navigationExtras: NavigationExtras = {
@@ -98,7 +99,7 @@ export class AdminApplicationFormService {
   }
 
   deleteApplicationFormById(formId: string, offset: number) {
-    this.http.delete<{message: string, isDeleted: boolean}>(`http://localhost:3000/api/admin/delete/application-form/${formId}`)
+    this.http.delete<{message: string, isDeleted: boolean}>(`${environment.apiURL}/api/admin/delete/application-form/${formId}`)
     .subscribe((response) => {      
       if(response.isDeleted === true) {
         this.getUsers(offset, 10);

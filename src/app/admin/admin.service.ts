@@ -4,6 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
+import { environment } from 'src/environments/environment.development';
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -29,7 +32,7 @@ export class AdminService {
 
 
   signup(userData: AdminUser) {
-    this.http.post('http://localhost:3000/api/auth/signup', {email: userData.email, password: userData.password})
+    this.http.post(`${environment.apiURL}/api/auth/signup`, {email: userData.email, password: userData.password})
       .subscribe(response => {
         console.log("Signup Res: ", response);
         this.login(userData);
@@ -49,7 +52,7 @@ export class AdminService {
   }
 
   login(userData: AdminUser) {
-    this.http.post<{message: string, token: string, expiresIn: number, userId: string}>('http://localhost:3000/api/auth/login', {email: userData.email, password: userData.password})
+    this.http.post<{message: string, token: string, expiresIn: number, userId: string}>(`${environment.apiURL}/api/auth/login`, {email: userData.email, password: userData.password})
     .subscribe(response => {
       console.log("Login Res: ", response);
       this.setAuthTimer(response);
