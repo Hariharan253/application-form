@@ -17,8 +17,14 @@ export class AdminService {
   private userId: string;
   private userIdSub = new BehaviorSubject<string>("");
 
+  private token: string;
+
   getUserIsAuthenticated() {
     return this.userIsAuthenticated;
+  }
+
+  public getToken() {
+    return this.token;
   }
 
 
@@ -30,6 +36,18 @@ export class AdminService {
     });
   }
 
+  autoLogin() {
+    const token = localStorage.getItem('token');
+    if(token !== null) {
+      this.token = token;
+      this.userIsAuthenticated = true;
+      this.userIsAuthenticatedSub.next(this.userIsAuthenticated);
+    }
+    else {
+      this.logout();
+    }
+  }
+
   login(userData: AdminUser) {
     this.http.post<{message: string, token: string, expiresIn: number, userId: string}>('http://localhost:3000/api/auth/login', {email: userData.email, password: userData.password})
     .subscribe(response => {
@@ -37,7 +55,9 @@ export class AdminService {
       this.setAuthTimer(response);
       this.setUser(response);
 
-      this.router.navigate(['/create']);
+      this.token = response.token;
+
+      this.router.navigate(['/admin/dashboard']);
       
     })
   }
@@ -72,7 +92,19 @@ export class AdminService {
   }
 
   logout() {
-
+    // console.log("Entered Logout");
+    this.clearLocalStorage();
+    this.userIsAuthenticated = false;
+    this.userIsAuthenticatedSub.next(false);
+    this.router.navigate(['admin/login']);
   }
+
+  private clearLocalStorage() {
+    localStorage.clear();
+    // localStorage.removeItem('token');
+    // localStorage.removeItem('expiresIn');
+    // localStorage.removeItem('userId');
+  }
+
 
 }

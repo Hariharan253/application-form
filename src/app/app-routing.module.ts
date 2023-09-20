@@ -11,6 +11,7 @@ import { DetailPageComponent } from './admin/detail-page/detail-page.component';
 import { SuccessOnCreateComponent } from './application-form/success-on-create/success-on-create.component';
 import { SignupComponent } from './admin/signup/signup.component';
 import { AuthGuard } from './admin/auth.guard';
+import { EditFormComponent } from './admin/edit-form/edit-form.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/create', pathMatch: 'full'},
@@ -18,13 +19,15 @@ const routes: Routes = [
   {path: 'review', component: ReviewFormComponent},
   {path: 'admin/signup/12092023', component: SignupComponent},
   {path: 'admin/login', component: LoginComponent},
-  {path: 'admin/dashboard', component: DashboardComponent},
-  {path: 'admin/detail', component: DetailPageComponent},
+  {path: 'admin/dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  {path: 'admin/detail', component: DetailPageComponent, canActivate: [AuthGuard]},
+  {path: 'admin/edit-form/:id', component: EditFormComponent, canActivate: [AuthGuard]},
   {path: 'success-on-create', component: SuccessOnCreateComponent}
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard]
 })
 export class AppRoutingModule { }

@@ -35,7 +35,7 @@ export class ApplicationFormService {
   }
 
   postApplicationFormToDB(applicationFormData: ApplicationForm) {
-    this.http.post<{message: string, applicationFormData: ApplicationForm}>("http://localhost:3000/api/application-form/post", applicationFormData)
+    this.http.post<{message: string, applicationFormData: ApplicationForm}>("http://application-form-env.eba-ypsj7biv.ap-south-1.elasticbeanstalk.com/api/application-form/post", applicationFormData)
       .subscribe((response) => {
         console.log(response.applicationFormData);
         this.applicationForm = null;

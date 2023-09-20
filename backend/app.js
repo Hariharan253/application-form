@@ -7,7 +7,7 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 const mongoose = require('mongoose');
 
-mongoose.connect(`mongodb+srv://hariharan210325:NtfylH7ws1iilTSY@cluster0.y06popu.mongodb.net/application-form?retryWrites=true`)
+mongoose.connect(`mongodb+srv://hariharan210325:${process.env.MONGO_ATLAS_PW}@cluster0.y06popu.mongodb.net/application-form?retryWrites=true`)
     .then(() => {
         console.log("MongoDB Connected Successfully");
     })
@@ -24,6 +24,8 @@ const adminApplicationFormRoutes = require('./routes/admin-application-form');
 // NtfylH7ws1iilTSY
 
 app.use((req, res, next) => {
+
+    // console.log("Env: ", );
 
     res.setHeader("Access-Control-Allow-Origin", "*");
 

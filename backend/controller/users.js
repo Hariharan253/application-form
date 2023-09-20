@@ -55,7 +55,7 @@ exports.loginUser = (req, res, next) => {
 
       const token = jwt.sign(
         { email: userData.email, userId: userData._id },
-        "secret_for_jwt",
+        process.env.JWT_KEY,
         { expiresIn: "1h" }
       );
 

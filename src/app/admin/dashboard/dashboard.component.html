@@ -44,13 +44,13 @@
                 <ng-container matColumnDef="demo-edit">
                   <th mat-header-cell *matHeaderCellDef> Edit </th>
                   <td mat-cell *matCellDef="let element"> 
-                    <button class="btn btn-sm btn-warning">{{element.edit}}</button>
+                    <a class="btn btn-sm btn-warning" [routerLink]="'/admin/edit-form/' + element.id" (click)="onEditApplicationForm(element.id)">{{element.edit}}</a>
                   </td>
                 </ng-container>
 
                 <ng-container matColumnDef="demo-delete">
                   <th mat-header-cell *matHeaderCellDef> Delete </th>
-                  <td mat-cell *matCellDef="let element"> 
+                  <td mat-cell *matCellDef="let element">
                     <button class="btn btn-sm btn-danger" (click)="onDeleteApplicationForm(element.id)">{{element.delete}}</button>
                   </td>
                 </ng-container>
@@ -67,6 +67,9 @@
               </div>
               <div class="flex-fill">
                 <button mat-button color="accent" (click)="onNextPage()" [disabled]="currentOffset + paginationValue >= count">Next Page</button>
+              </div>
+              <div class="flex-fill">
+                <button mat-button class="btn btn-sm btn-primary" (click)="onDownloadCSV()" >Download Excel</button>
               </div>
             </div>
             <!-- <div class="button-margin">

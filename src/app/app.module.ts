@@ -25,6 +25,7 @@ import { ErrorInterceptor } from 'src/error-interceptor';
 import { SuccessOnCreateComponent } from './application-form/success-on-create/success-on-create.component';
 import { HeaderComponent } from './header/header.component';
 import { SignupComponent } from './admin/signup/signup.component';
+import { EditFormComponent } from './admin/edit-form/edit-form.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { SignupComponent } from './admin/signup/signup.component';
     DetailPageComponent,
     SuccessOnCreateComponent,
     HeaderComponent,
-    SignupComponent
+    SignupComponent,
+    EditFormComponent
   ],
   imports: [
     BrowserModule,

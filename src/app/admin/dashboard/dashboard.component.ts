@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminApplicationFormService } from '../admin-application-form.service';
 import { ApplicationForm } from 'src/app/application-form/application-form.model';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 
 
@@ -28,10 +29,12 @@ export class DashboardComponent implements OnInit {
   public count = 0;
   public paginationValue = 10;
 
-  constructor(private adminApplicationFormService: AdminApplicationFormService) {}
+  constructor(private adminApplicationFormService: AdminApplicationFormService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-     this.currentPage = 0;
+    //  console.log();
+     this.currentOffset = this.adminApplicationFormService.currentOffset;
+     this.currentPage = this.adminApplicationFormService.currentPage; 
      this.count = 0;
      this.adminApplicationFormService.getUsers(this.currentOffset, 10);
      this.adminApplicationFormService.getUsersSub()
@@ -46,7 +49,8 @@ export class DashboardComponent implements OnInit {
         const editAndDeleteIcon = {"edit": "Edit", "delete": "Delete"};
         this.dataSource = this.Users.map((item) => ({...item, ...editAndDeleteIcon}));
         // this.currentPage += 1;
-        this.currentOffset = applicationForm.offset; //set offset from API response
+        this.adminApplicationFormService.currentOffset = applicationForm.offset; //set offset from API response
+        this.currentOffset = this.adminApplicationFormService.currentOffset; 
         this.count = applicationForm.count;
         
       }
@@ -58,14 +62,16 @@ export class DashboardComponent implements OnInit {
       return;
     this.isLoading = true;
     this.adminApplicationFormService.getUsers(this.currentOffset - this.paginationValue, this.paginationValue);
-    this.currentPage -= 1;
+    this.adminApplicationFormService.currentPage -= 1;
+    this.currentPage = this.adminApplicationFormService.currentPage;
   }
 
   onNextPage() {
     if(this.count - this.currentOffset >= 0 ) {
       this.isLoading = true;
       this.adminApplicationFormService.getUsers(this.currentOffset + this.paginationValue, this.paginationValue);
-      this.currentPage += 1;
+      this.adminApplicationFormService.currentPage += 1;
+    this.currentPage = this.adminApplicationFormService.currentPage;
       
     }
   }
@@ -73,5 +79,27 @@ export class DashboardComponent implements OnInit {
   onDeleteApplicationForm(id: string) {    
     this.isLoading = true;
     this.adminApplicationFormService.deleteApplicationFormById(id, this.currentOffset);
+  }
+
+  onEditApplicationForm(id: string) {
+
+    const navigationExtras: NavigationExtras = {
+      queryParams: {offset: this.currentOffset}
+    }
+
+    this.router.navigate([`/admin/edit-form/${id}`], navigationExtras);
+  }
+
+  onDownloadCSV() {
+    const data = [
+      { Name: 'John Doe', Age: 30 },
+      { Name: 'Jane Smith', Age: 25 },
+      { Name: 'Mike Johnson', Age: 35 }
+    ];
+    const modifiedUser = this.Users.map(item => {
+      const {id, position, ...rest} = item;
+      return {s_no: position, ...rest};
+    })
+    this.adminApplicationFormService.generateExcel(modifiedUser, 'candidates_detail.xlsx');
   }
 }
